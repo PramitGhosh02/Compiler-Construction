@@ -1,0 +1,22 @@
+# Compiled binaries
+*.out
+*.exe
+*.o
+a.out
+experiment2
+experiment6
+experiment7
+experiment8
+exp10
+
+# Lex & Yacc generated C files
+lex.yy.c
+y.tab.c
+y.tab.h
+y.output
+
+# OS & Editor files
+.DS_Store
+Thumbs.db
+*~
+*.swp
