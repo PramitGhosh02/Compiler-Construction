@@ -20,3 +20,6 @@ y.output
 Thumbs.db
 *~
 *.swp
+
+# Legacy unorganized folders in local WSL
+lab*/
