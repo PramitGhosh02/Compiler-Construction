@@ -1,99 +1,61 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-int yylex(void);
-int yyerror(const char *s);
-
-int temp_count = 1;
-
-char* new_temp(void) {
-    char *temp = (char*)malloc(16);
-    snprintf(temp, 16, "t%d", temp_count++);
-    return temp;
-}
+int yylex();
+int yyerror(char *s);
 %}
 
-%union {
-    char *str;
-}
-
-%token <str> NUMBER ID
-%type <str> expr
-
-%left '+' '-'
-%left '*' '/'
+%token FOR INT INC DEC NUM ID
+%token EQ LE GE
 
 %%
 
-lines:
-      lines line
-    |
-    ;
+program:
+        for_statement
+        ;
 
-line:
-      '\n'
-    | ID '=' expr '\n' {
-        printf("Three-Address Code:\n%s = %s\n\n", $1, $3);
-        temp_count = 1;
-    }
-    | expr '\n' {
-        printf("Three-Address Code Result in: %s\n\n", $1);
-        temp_count = 1;
-    }
-    | error '\n' {
-        yyerrok;
-    }
-    ;
+for_statement:
+        FOR '(' initialization ';' condition ';' update ')' statement
+        ;
 
-expr:
-      expr '+' expr {
-        char *t = new_temp();
-        printf("%s = %s + %s\n", t, $1, $3);
-        $$ = t;
-    }
-    | expr '-' expr {
-        char *t = new_temp();
-        printf("%s = %s - %s\n", t, $1, $3);
-        $$ = t;
-    }
-    | expr '*' expr {
-        char *t = new_temp();
-        printf("%s = %s * %s\n", t, $1, $3);
-        $$ = t;
-    }
-    | expr '/' expr {
-        char *t = new_temp();
-        printf("%s = %s / %s\n", t, $1, $3);
-        $$ = t;
-    }
-    | '(' expr ')' {
-        $$ = $2;
-    }
-    | '-' expr %prec '*' {
-        char *t = new_temp();
-        printf("%s = -%s\n", t, $2);
-        $$ = t;
-    }
-    | ID {
-        $$ = $1;
-    }
-    | NUMBER {
-        $$ = $1;
-    }
-    ;
+initialization:
+        INT ID '=' NUM
+        | ID '=' NUM
+        ;
+
+condition:
+        ID '<' NUM
+        | ID '>' NUM
+        | ID LE NUM
+        | ID GE NUM
+        | ID EQ NUM
+        ;
+
+update:
+        ID INC
+        | ID DEC
+        ;
+
+statement:
+        ';'
+        | '{' '}'
+        ;
 
 %%
 
-int main(void) {
-    printf("Intermediate Code Generator (Three-Address Code)\n");
-    printf("Enter expression or assignment (e.g., a = b + c * d):\n");
-    yyparse();
+int main()
+{
+    printf("Enter FOR loop statement:\n");
+
+    if(yyparse() == 0)
+        printf("Valid FOR loop\n");
+
     return 0;
 }
 
-int yyerror(const char *s) {
-    printf("Syntax Error: %s\n", s);
+int yyerror(char *s)
+{
+    printf("Invalid FOR loop\n");
     return 0;
 }
