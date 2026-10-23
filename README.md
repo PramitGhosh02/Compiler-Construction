@@ -138,8 +138,8 @@ gcc y.tab.c lex.yy.c -o exp9 -lm -lfl
 
 ---
 
-### Experiment 10: Intermediate Code Generator (Three-Address Code)
-- **`exp10.l`** & **`exp10.y`**: Generates Three-Address Code (TAC) representations with temporary variables (`t1`, `t2`, ...) for expressions and assignment statements.
+### Experiment 10: Parser for “FOR” loop statements
+- **`exp10.l`** & **`exp10.y`**: Generates Parser for "FOR" loop statements.
 ```bash
 cd Experiment-10
 yacc -d exp10.y
