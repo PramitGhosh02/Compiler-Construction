@@ -1,30 +1,30 @@
 %{
 #include "y.tab.h"
+#include <stdio.h>
+#include <stdlib.h>
 %}
 
-%%
-
-"for"                   {return FOR;}
-"int"                   {return INT;}
-"++"                    {return INC;}
-"--"                    {return DEC;}
-
-[0-9]+                  {return NUM;}
-[A-Za-z_][A-Za-z0-9_]*  {return ID;}
-
-"=="                    {return EQ;}
-"<="                    {return LE;}
-">="                    {return GE;}
-
-[=;()+\-*/<>]           {return yytext[0];}
-
-[ \t\n]                 ;
-
-.                       {return yytext[0];}
+%option noyywrap
 
 %%
 
-int yywrap()
-{
-    return 1;
-}
+"for"                       { return FOR; }
+"int"|"float"|"char"|"double" { return TYPE; }
+"<="                        { return LE; }
+">="                        { return GE; }
+"=="                        { return EQ; }
+"!="                        { return NE; }
+"&&"                        { return AND; }
+"||"                        { return OR; }
+"++"                        { return INC; }
+"--"                        { return DEC; }
+"+="                        { return ADD_ASSIGN; }
+"-="                        { return SUB_ASSIGN; }
+"*="                        { return MUL_ASSIGN; }
+"/="                        { return DIV_ASSIGN; }
+[0-9]+(\.[0-9]+)?           { return NUM; }
+[a-zA-Z_][a-zA-Z0-9_]*      { return ID; }
+[ \t\r\n]+                  ; /* Ignore whitespace */
+.                           { return yytext[0]; }
+
+%%
