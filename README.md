@@ -17,7 +17,7 @@ Compiler-Construction/
 ├── Experiment-07/   # Count lines ending with .com or .COM in a file
 ├── Experiment-08/   # Postfix expression evaluation with power and inc/dec
 ├── Experiment-09/   # Advanced Desk Calculator with error recovery
-└── Experiment-10/   # Intermediate Code Generator (Three-Address Code)
+└── Experiment-10/   # Parser for "FOR" loop
 ```
 
 ---
